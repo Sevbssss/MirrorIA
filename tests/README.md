@@ -1,0 +1,1 @@
+Pruebas previstas: RF-01 dos fotos; RF-02 categorías/errores de catálogo; RF-03 ranking; RF-04 reutilización de cuerpo; RF-05 enlace; RNF-04 ausencia de escritura de fotos; RNF-05 selectores centralizados. El maquetado solo permite verificar rutas y plantillas.
