@@ -1,5 +1,7 @@
-"""Entrada local del maquetado. No usar el servidor de desarrollo en producción."""
+"""Punto de entrada del servidor Flask."""
 from app import create_app
+
 app = create_app()
-if __name__ == '__main__':
-    app.run(debug=False)
+
+if __name__ == "__main__":
+    app.run()

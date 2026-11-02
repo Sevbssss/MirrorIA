@@ -1,2 +1,15 @@
 {% extends 'base.html' %}
-{% block content %}<h2>{{ title }}</h2><p>Nombre, marca, precio, descuento y enlace a DePrati. Datos pendientes de integración.</p><p>{{ status }}</p>{% endblock %}
+{% set current_step = 4 %}
+{% block title %}Ficha de compra | Mirror IA{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h1>Ficha de compra</h1>
+    <p class="placeholder">Pantalla de marcador: la ficha de compra se implementa en la Fase 8.</p>
+    <div class="actions">
+      <a class="button button--secondary" href="{{ url_for('tryon.index') }}">Regresar</a>
+      <a class="button" href="{{ url_for('home.index') }}">Volver al inicio</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

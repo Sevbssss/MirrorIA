@@ -1,2 +1,15 @@
 {% extends 'base.html' %}
-{% block content %}<h2>{{ title }}</h2><p>Búsqueda por texto: camisas, pantalones o shorts. Ranking previsto de cinco prendas.</p><p>{{ status }}</p>{% endblock %}
+{% set current_step = 2 %}
+{% block title %}Buscar prendas | Mirror IA{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h1>Buscar prendas</h1>
+    <p class="placeholder">Pantalla de marcador: la búsqueda conversacional se implementa en la Fase 3.</p>
+    <div class="actions">
+      <a class="button button--secondary" href="{{ url_for('photos.confirm') }}">Regresar</a>
+      <a class="button" href="{{ url_for('tryon.index') }}">Ir al probador</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

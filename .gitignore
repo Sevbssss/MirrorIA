@@ -1,3 +1,19 @@
-__pycache__/
+# Entorno y secretos
 .venv/
+venv/
 .env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Archivos temporales de usuario
+app/static/uploads/
+app/static/generated/
+
+# Editor y sistema
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

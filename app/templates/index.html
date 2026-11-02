@@ -1,2 +1,69 @@
 {% extends 'base.html' %}
-{% block content %}<h2>{{ title }}</h2><p>Flujo de cuatro pasos. Comienza con dos fotografías por sesión.</p><p>{{ status }}</p>{% endblock %}
+{% block title %}Inicio | Mirror IA{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <h1>Encuentra las prendas que mejor van contigo</h1>
+    <p class="hero__lead">Carga dos fotografías, cuéntanos qué buscas y recibe 5 prendas de DePrati ordenadas según tu colorimetría, con una visualización aproximada sobre tu foto.</p>
+    <div class="actions">
+      <a class="button" href="{{ url_for('photos.upload') }}">Comenzar</a>
+      <a class="button button--secondary" href="#como-funciona">Cómo funciona</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="como-funciona">
+  <div class="container">
+    <h2>Cómo funciona</h2>
+    <ol class="card-grid how-it-works">
+      <li class="card">
+        <h3>Tus fotografías</h3>
+        <p>Carga una foto de tu rostro y otra de cuerpo completo, ambas de frente.</p>
+      </li>
+      <li class="card">
+        <h3>Buscar prendas</h3>
+        <p>Escribe lo que buscas, por ejemplo: "Quiero una camisa azul para una ocasión formal".</p>
+      </li>
+      <li class="card">
+        <h3>Probador virtual</h3>
+        <p>Elige entre tus 5 recomendaciones y mira cómo se vería aproximadamente sobre tu foto.</p>
+      </li>
+      <li class="card">
+        <h3>Ficha de compra</h3>
+        <p>Revisa los detalles de la prenda y continúa la compra en DePrati.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--tinted" id="caracteristicas">
+  <div class="container">
+    <h2>Características principales</h2>
+    <div class="card-grid">
+      <article class="card">
+        <h3>Colorimetría</h3>
+        <p>Analiza tu foto facial para sugerir los colores que te favorecen.</p>
+      </article>
+      <article class="card">
+        <h3>Búsqueda conversacional</h3>
+        <p>Pide camisas, pantalones o shorts con tus propias palabras.</p>
+      </article>
+      <article class="card">
+        <h3>Recomendaciones con semáforo</h3>
+        <p>Exactamente 5 prendas, ordenadas de mayor a menor afinidad contigo.</p>
+      </article>
+      <article class="card">
+        <h3>Visualización aproximada</h3>
+        <p>Una referencia visual de la prenda sobre tu foto. No representa talla, ajuste ni caída exactos.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sobre-nosotros">
+  <div class="container prose">
+    <h2>Sobre nosotros</h2>
+    <p>Mirror IA es un proyecto universitario que combina colorimetría y recomendación de prendas con el catálogo de DePrati. No necesitas crear una cuenta y tus fotografías no se guardan de forma permanente.</p>
+  </div>
+</section>
+{% endblock %}

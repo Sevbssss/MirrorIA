@@ -1,8 +1,9 @@
-"""Ficha de compra con enlace oficial. La vista traduce HTTP y delegará al servicio correspondiente."""
+"""Presentación: mostrará la ficha de compra de productos mediante servicios."""
 from flask import Blueprint, render_template
-from app.services import search_service
-bp = Blueprint('products', __name__)
-@bp.get('/products/<product_id>')
-def index(product_id):
-    """Solo renderiza el maquetado. Las operaciones de negocio siguen pendientes."""
-    return render_template('product_detail.html', title='Ficha de compra con enlace oficial', status='Maquetado sin procesamiento real')
+
+products_bp = Blueprint("products", __name__, url_prefix="/ficha")
+
+
+@products_bp.get("/")
+def detail():
+    return render_template("product_detail.html")

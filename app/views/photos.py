@@ -1,13 +1,14 @@
-"""Tus fotografías: rostro y cuerpo completo. La vista traduce HTTP y delegará al servicio correspondiente."""
+"""Presentación: recepción y confirmación de fotografías; delegará validación y procesamiento a image_service."""
 from flask import Blueprint, render_template
-from app.services import image_service
-bp = Blueprint('photos', __name__)
-@bp.get('/photos')
-def index():
-    """Solo renderiza el maquetado. Las operaciones de negocio siguen pendientes."""
-    return render_template('photos.html', title='Tus fotografías: rostro y cuerpo completo', status='Maquetado sin procesamiento real')
 
-@bp.get('/photos/confirm')
+photos_bp = Blueprint("photos", __name__, url_prefix="/fotografias")
+
+
+@photos_bp.get("/")
+def upload():
+    return render_template("photos.html")
+
+
+@photos_bp.get("/confirmar")
 def confirm():
-    """Confirmación prevista antes de analizar las dos fotos; no hay subida implementada."""
-    return render_template('confirm_photos.html', title='Confirmar fotografías', status='Pendiente')
+    return render_template("confirm_photos.html")

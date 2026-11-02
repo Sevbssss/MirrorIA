@@ -1,2 +1,15 @@
 {% extends 'base.html' %}
-{% block content %}<h2>{{ title }}</h2><p>Confirmación de las dos imágenes antes del procesamiento.</p><p>{{ status }}</p>{% endblock %}
+{% set current_step = 1 %}
+{% block title %}Confirmar fotografías | Mirror IA{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h1>Confirmar fotografías</h1>
+    <p class="placeholder">Pantalla de marcador: la vista previa y confirmación se implementan en la Fase 2.</p>
+    <div class="actions">
+      <a class="button button--secondary" href="{{ url_for('photos.upload') }}">Regresar</a>
+      <a class="button" href="{{ url_for('search.index') }}">Continuar</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

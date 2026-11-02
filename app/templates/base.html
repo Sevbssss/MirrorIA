@@ -1,6 +1,48 @@
+{% set progress_steps = [
+  ('photos.upload', 'Tus fotografías'),
+  ('search.index', 'Buscar prendas'),
+  ('tryon.index', 'Probador virtual'),
+  ('products.detail', 'Ficha de compra'),
+] %}
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><title>{{ title }} | Mirror IA</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></head>
-<body><header><h1>Mirror IA</h1><nav>Tus fotografías → Buscar prendas → Probador virtual → Ficha de compra</nav></header>
-<main>{% block content %}{% endblock %}</main>
-<footer>Prototipo académico. Sin cuentas, historial ni pago propio.</footer></body></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Mirror IA{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="{{ url_for('home.index') }}">Mirror IA</a>
+      <a class="site-header__link" href="{{ url_for('home.index') }}">Inicio</a>
+    </div>
+  </header>
+
+  {% if current_step is defined %}
+  <nav class="progress" aria-label="Progreso">
+    <ol class="container progress__list">
+      {% for endpoint, label in progress_steps %}
+      <li class="progress__step{% if loop.index == current_step %} is-current{% elif loop.index < current_step %} is-done{% endif %}">
+        <a href="{{ url_for(endpoint) }}"{% if loop.index == current_step %} aria-current="step"{% endif %}>
+          <span class="progress__number">{{ loop.index }}</span>
+          <span class="progress__label">{{ label }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </nav>
+  {% endif %}
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <strong>Mirror IA</strong>
+      <p>Proyecto universitario. Mirror IA no procesa pagos: la compra continúa en DePrati.</p>
+    </div>
+  </footer>
+</body>
+</html>

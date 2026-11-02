@@ -1,8 +1,9 @@
-"""Buscar prendas de DePrati y ranking de cinco opciones. La vista traduce HTTP y delegará al servicio correspondiente."""
+"""Presentación: recibirá criterios de búsqueda y mostrará resultados de search_service."""
 from flask import Blueprint, render_template
-from app.services import search_service
-bp = Blueprint('search', __name__)
-@bp.get('/search')
+
+search_bp = Blueprint("search", __name__, url_prefix="/buscar")
+
+
+@search_bp.get("/")
 def index():
-    """Solo renderiza el maquetado. Las operaciones de negocio siguen pendientes."""
-    return render_template('search.html', title='Buscar prendas de DePrati y ranking de cinco opciones', status='Maquetado sin procesamiento real')
+    return render_template("search.html")
