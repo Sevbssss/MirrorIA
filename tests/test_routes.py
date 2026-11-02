@@ -66,6 +66,44 @@ def test_search_without_category_explains_problem(confirmed_client):
     assert "Indica cuál de ellos quieres" in html
 
 
+def test_search_returns_five_recommendations(confirmed_client):
+    html = confirmed_client.post("/buscar/", data={"query": "un short"}, follow_redirects=True).get_data(as_text=True)
+    classifications = re.findall(r'data-classification="(\w+)"', html)
+    assert classifications == ["green", "green", "yellow", "yellow", "red"]
+    assert "Productos de ejemplo" in html
+
+
+def test_search_respects_requested_section():
+    from app.services.search_service import find_products
+
+    products = find_products({"section": "Hombre", "category": "Camisa"}, "https://x")
+    assert products and all(product.section == "Hombre" for product in products)
+
+
+def test_search_without_section_does_not_repeat_garments():
+    from app.services.search_service import find_products
+
+    names = [product.name for product in find_products({"section": "Unisex", "category": "Camisa"}, "https://x")]
+    assert len(names) >= 5 and len(names) == len(set(names))
+
+
+def test_catalog_failure_is_controlled(confirmed_client, monkeypatch):
+    from app.scraping import deprati_scraper
+
+    def fail(*_args):
+        raise deprati_scraper.CatalogError("El catálogo no está disponible.")
+
+    monkeypatch.setattr(deprati_scraper, "fetch_catalog", fail)
+    response = confirmed_client.post("/buscar/", data={"query": "un short"}, follow_redirects=True)
+    assert response.status_code == 200
+    assert "El catálogo no está disponible." in response.get_data(as_text=True)
+
+
+def test_face_analysis_failure_returns_to_photos(client_with_photos):
+    response = client_with_photos.post("/fotografias/confirmar", follow_redirects=True)
+    assert "No detectamos un rostro" in response.get_data(as_text=True)
+
+
 def test_search_escapes_user_text(confirmed_client):
     html = confirmed_client.post(
         "/buscar/", data={"query": "camisa <script>alert(1)</script>"}, follow_redirects=True

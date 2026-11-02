@@ -5,6 +5,22 @@
 <section class="section">
   <div class="container chat-layout">
     <h1>Buscar prendas</h1>
+
+    {% if user_session.color_analysis %}
+    <div class="analysis card">
+      <h2>Tu análisis básico</h2>
+      <dl class="filters">
+        <div><dt>Tono de piel</dt><dd>{{ user_session.color_analysis.skin_tone }}</dd></div>
+        <div><dt>Subtono</dt><dd>{{ user_session.color_analysis.undertone }}</dd></div>
+      </dl>
+      <p class="analysis__label">Colores sugeridos</p>
+      <ul class="chips">
+        {% for color in user_session.color_analysis.recommended_colors %}<li>{{ color }}</li>{% endfor %}
+      </ul>
+      <p class="note">Es una estimación según tu foto y puede variar con la iluminación.</p>
+    </div>
+    {% endif %}
+
     <div class="chat">
       <p class="chat__message chat__message--bot">Cuéntame qué prenda buscas. Por ejemplo: "Quiero una camisa azul para una ocasión formal".</p>
       {% if user_session.search_filters %}
@@ -25,9 +41,23 @@
         <button class="button" type="submit">Enviar</button>
       </form>
     </div>
+
+    {% if user_session.recommended_products %}
+    <h2 class="results-title">Prendas encontradas para ti</h2>
+    {% if user_session.recommended_products[0].product.is_mock %}
+    <p class="alert">Productos de ejemplo: los nombres y precios son temporales y no provienen del catálogo real de DePrati.</p>
+    {% endif %}
+    {% if user_session.recommended_products|length < 5 %}
+    <p class="alert">Solo encontramos {{ user_session.recommended_products|length }} prendas que coinciden con tu búsqueda.</p>
+    {% endif %}
+    {% include '_recommendations.html' %}
+    {% endif %}
+
     <div class="actions">
       <a class="button button--secondary" href="{{ url_for('photos.confirm') }}">Regresar</a>
-      <a class="button" href="{{ url_for('tryon.index') }}">Ir al probador</a>
+      {% if user_session.recommended_products %}
+      <a class="button search-next" href="{{ url_for('tryon.index') }}">Ir al probador</a>
+      {% endif %}
     </div>
   </div>
 </section>

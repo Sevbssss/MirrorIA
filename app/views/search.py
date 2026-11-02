@@ -1,5 +1,5 @@
-"""Presentación: recibe la consulta y muestra los filtros que interpreta search_service."""
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+"""Presentación: recibe la consulta y muestra los resultados de search_service."""
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 
 from app.services import search_service
 from app.services.search_service import SearchError
@@ -18,7 +18,9 @@ def index():
 @confirmed_photos_required
 def submit():
     try:
-        search_service.interpret(current_user_session(), request.form.get("query", ""))
+        search_service.run_search(
+            current_user_session(), request.form.get("query", ""), current_app.config["DEPRATI_BASE_URL"]
+        )
     except SearchError as error:
         flash(str(error), "error")
     return redirect(url_for("search.index"))

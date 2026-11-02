@@ -1,11 +1,16 @@
-"""RF-02: interpreta la consulta en lenguaje natural mediante diccionarios y reglas."""
+"""RF-02: interpreta la consulta con diccionarios y reglas, y obtiene productos del catálogo."""
 import re
 import unicodedata
 
+from app.models.product import Product
 from app.models.user_session import UserSession
+from app.scraping import deprati_scraper, product_parser
+from app.scraping.deprati_scraper import CatalogError
+from app.services import recommendation_service
 
 MAX_QUERY_LENGTH = 300
 DEFAULT_SECTION = "Unisex"
+NO_PRODUCTS_MESSAGE = "No encontramos prendas que coincidan con tu búsqueda."
 
 SECTIONS = {
     "Mujer": r"mujer(es)?|dama(s)?|femenin[oa]s?|chica(s)?",
@@ -66,7 +71,32 @@ def interpret(user_session: UserSession, query: str) -> dict:
         raise SearchError("Por ahora buscamos camisas, pantalones y shorts. Indica cuál de ellos quieres.")
     user_session.search_query = query
     user_session.search_filters = filters
+    user_session.recommended_products = []
     return filters
+
+
+def run_search(user_session: UserSession, query: str, base_url: str) -> None:
+    """Interpreta la consulta, obtiene los productos y guarda las recomendaciones en la sesión."""
+    filters = interpret(user_session, query)
+    try:
+        products = find_products(filters, base_url)
+    except CatalogError as error:
+        user_session.recommended_products = []
+        raise SearchError(str(error)) from error
+    user_session.recommended_products = recommendation_service.rank(
+        products, user_session.color_analysis, filters
+    )
+    if not user_session.recommended_products:
+        raise SearchError(NO_PRODUCTS_MESSAGE)
+
+
+def find_products(filters: dict, base_url: str) -> list[Product]:
+    """Consulta el catálogo y deja los productos de la sección pedida, sin repetir prendas."""
+    products = product_parser.parse_products(deprati_scraper.fetch_catalog(filters["category"], base_url))
+    section = filters["section"]
+    if section == DEFAULT_SECTION:
+        return list({product.name: product for product in reversed(products)}.values())
+    return [product for product in products if product.section in (section, DEFAULT_SECTION)]
 
 
 def _normalize(text: str) -> str:

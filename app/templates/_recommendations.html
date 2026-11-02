@@ -1,0 +1,15 @@
+{% set affinity_labels = {'green': 'Afinidad alta', 'yellow': 'Afinidad media', 'red': 'Afinidad menor'} %}
+<ul class="recommendations">
+  {% for item in user_session.recommended_products %}
+  <li class="recommendation card" data-classification="{{ item.classification }}">
+    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" loading="lazy">
+    <span class="badge badge--{{ item.classification }}">{{ affinity_labels[item.classification] }} · {{ item.score }}%</span>
+    <h3>{{ item.product.name }}</h3>
+    <p class="price">
+      ${{ '%.2f'|format(item.product.price) }}
+      {% if item.product.previous_price %}<s>${{ '%.2f'|format(item.product.previous_price) }}</s>{% endif %}
+    </p>
+    <a class="button button--secondary" href="{{ url_for('tryon.index', producto=item.product.id) }}">Probar prenda</a>
+  </li>
+  {% endfor %}
+</ul>

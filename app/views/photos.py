@@ -1,7 +1,8 @@
 """Presentación: recepción y confirmación de fotografías; la validación está en image_service."""
 from flask import Blueprint, Response, abort, current_app, flash, redirect, render_template, request, url_for
 
-from app.services import image_service
+from app.services import colorimetry_service, image_service
+from app.services.colorimetry_service import ColorimetryError
 from app.services.image_service import PhotoError
 from app.views.session_helper import current_user_session, photos_required
 
@@ -33,7 +34,13 @@ def confirm():
 @photos_bp.post("/confirmar")
 @photos_required
 def accept():
-    current_user_session().photos_confirmed = True
+    user_session = current_user_session()
+    try:
+        user_session.color_analysis = colorimetry_service.analyze(user_session.face_photo)
+    except ColorimetryError as error:
+        flash(str(error), "error")
+        return redirect(url_for("photos.upload"))
+    user_session.photos_confirmed = True
     return redirect(url_for("search.index"))
 
 

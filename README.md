@@ -49,7 +49,11 @@ Las pruebas usan pytest, que se instala aparte: `python -m pip install pytest` y
 
 ## Estado actual
 
-Avance 1: carga, validación y confirmación de las dos fotografías (archivo o cámara) y búsqueda conversacional con reglas. Las fotografías se mantienen solo en memoria durante 30 minutos de inactividad, según RNF-04, y no se escriben en disco. Productos, recomendaciones, colorimetría y probador se implementan en los siguientes avances.
+Avance 2: además de las fotografías (solo en memoria, según RNF-04) y la búsqueda conversacional, incluye colorimetría real con MediaPipe y OpenCV, y hasta 5 recomendaciones ordenadas por afinidad con semáforo.
+
+**Catálogo de ejemplo:** DePrati prohíbe `/search` en `robots.txt` y responde con un desafío antibot, así que `app/scraping/deprati_scraper.py` usa datos mock identificados en la interfaz. Se reemplaza sin tocar el resto cuando exista una fuente autorizada.
+
+El probador virtual y la ficha de compra se implementan en el siguiente avance.
 
 ## Alcance
 Tus fotografías (rostro y cuerpo completo) → Buscar prendas → Probador virtual → Ficha de compra.

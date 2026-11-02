@@ -398,6 +398,111 @@ input:focus-visible {
   font-weight: 700;
 }
 
+/* Análisis y recomendaciones */
+.chat-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chat-layout h1 {
+  margin: 0;
+}
+
+.chat {
+  max-width: none;
+}
+
+.chat-layout .alert {
+  margin: 0;
+}
+
+.analysis h2 {
+  font-size: 1.1rem;
+}
+
+.analysis__label {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.25rem 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background: var(--peach-200);
+  font-weight: 600;
+}
+
+.note {
+  font-size: 0.875rem;
+}
+
+.results-title {
+  margin: 0.75rem 0 0;
+}
+
+.recommendations {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recommendation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recommendation img {
+  width: 100%;
+  height: 180px;
+  border-radius: var(--radius);
+  background: var(--neutral);
+  object-fit: contain;
+}
+
+.recommendation h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.recommendation .button {
+  margin-top: auto;
+}
+
+.price {
+  font-weight: 700;
+}
+
+.price s {
+  font-weight: 400;
+}
+
+.badge {
+  align-self: flex-start;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Colores de semáforo: fuera de la paleta porque comunican un estado. */
+.badge--green { background: #1E6B3A; color: var(--white); }
+.badge--yellow { background: #F2C94C; color: var(--ink); }
+.badge--red { background: #B3261E; color: var(--white); }
+
 /* Móvil */
 @media (max-width: 640px) {
   .progress__step a {
