@@ -5,11 +5,22 @@
 <section class="section">
   <div class="container">
     <h1>Confirmar fotografías</h1>
-    <p class="placeholder">Pantalla de marcador: la vista previa y confirmación se implementan en la Fase 2.</p>
-    <div class="actions">
-      <a class="button button--secondary" href="{{ url_for('photos.upload') }}">Regresar</a>
-      <a class="button" href="{{ url_for('search.index') }}">Continuar</a>
+    <p>Revisa que tu rostro y tu cuerpo completo se vean con claridad.</p>
+    <div class="card-grid photo-grid">
+      <figure class="card photo-card">
+        <img class="photo-preview" src="{{ url_for('photos.preview', kind='face') }}" alt="Tu foto de rostro">
+        <figcaption>Foto de rostro</figcaption>
+      </figure>
+      <figure class="card photo-card">
+        <img class="photo-preview" src="{{ url_for('photos.preview', kind='body') }}" alt="Tu foto de cuerpo completo">
+        <figcaption>Foto de cuerpo completo</figcaption>
+      </figure>
     </div>
+    <form class="actions" action="{{ url_for('photos.accept') }}" method="post">
+      <a class="button button--secondary" href="{{ url_for('home.index') }}">Regresar</a>
+      <a class="button button--secondary" href="{{ url_for('photos.upload') }}">Volver a tomar</a>
+      <button class="button" type="submit">Continuar</button>
+    </form>
   </div>
 </section>
 {% endblock %}

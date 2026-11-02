@@ -3,9 +3,28 @@
 {% block title %}Buscar prendas | Mirror IA{% endblock %}
 {% block content %}
 <section class="section">
-  <div class="container">
+  <div class="container chat-layout">
     <h1>Buscar prendas</h1>
-    <p class="placeholder">Pantalla de marcador: la búsqueda conversacional se implementa en la Fase 3.</p>
+    <div class="chat">
+      <p class="chat__message chat__message--bot">Cuéntame qué prenda buscas. Por ejemplo: "Quiero una camisa azul para una ocasión formal".</p>
+      {% if user_session.search_filters %}
+      <p class="chat__message chat__message--user">{{ user_session.search_query }}</p>
+      <div class="chat__message chat__message--bot chat__message--wide">
+        <p>Esto es lo que entendí:</p>
+        <dl class="filters">
+          <div><dt>Sección</dt><dd>{{ user_session.search_filters.section }}</dd></div>
+          <div><dt>Categoría</dt><dd>{{ user_session.search_filters.category }}</dd></div>
+          <div><dt>Color</dt><dd>{{ user_session.search_filters.color or 'Sin indicar' }}</dd></div>
+          <div><dt>Ocasión o estilo</dt><dd>{{ user_session.search_filters.style or 'Sin indicar' }}</dd></div>
+        </dl>
+      </div>
+      {% endif %}
+      <form class="chat__form" action="{{ url_for('search.submit') }}" method="post">
+        <label class="visually-hidden" for="query">Qué prenda buscas</label>
+        <input id="query" name="query" type="text" maxlength="300" required autocomplete="off" placeholder="Escribe lo que buscas">
+        <button class="button" type="submit">Enviar</button>
+      </form>
+    </div>
     <div class="actions">
       <a class="button button--secondary" href="{{ url_for('photos.confirm') }}">Regresar</a>
       <a class="button" href="{{ url_for('tryon.index') }}">Ir al probador</a>

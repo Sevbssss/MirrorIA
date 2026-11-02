@@ -1,15 +1,39 @@
 {% extends 'base.html' %}
 {% set current_step = 1 %}
 {% block title %}Tus fotografías | Mirror IA{% endblock %}
+
+{% macro photo_card(kind, title, hint, stored) %}
+<article class="card photo-card">
+  <h2>{{ title }}</h2>
+  <p>{{ hint }}</p>
+  <img class="photo-preview" data-preview="{{ kind }}" alt="Vista previa: {{ title }}"
+       {% if stored %}src="{{ url_for('photos.preview', kind=kind) }}"{% else %}hidden{% endif %}>
+  <div class="camera" data-camera-panel="{{ kind }}" hidden>
+    <video playsinline muted></video>
+    <button class="button" type="button" data-camera-capture="{{ kind }}">Capturar</button>
+  </div>
+  <label class="field-label" for="{{ kind }}">Subir imagen (JPG, JPEG o PNG)</label>
+  <input id="{{ kind }}" name="{{ kind }}" type="file" accept=".jpg,.jpeg,.png">
+  <button class="button button--secondary" type="button" data-camera-open="{{ kind }}">Usar cámara</button>
+  <p class="camera-error" data-camera-error="{{ kind }}" role="alert" hidden></p>
+</article>
+{% endmacro %}
+
 {% block content %}
 <section class="section">
   <div class="container">
     <h1>Tus fotografías</h1>
-    <p class="placeholder">Pantalla de marcador: la carga de fotografías se implementa en la Fase 2.</p>
-    <div class="actions">
-      <a class="button button--secondary" href="{{ url_for('home.index') }}">Regresar</a>
-      <a class="button" href="{{ url_for('photos.confirm') }}">Continuar</a>
-    </div>
+    <p>Necesitamos dos fotos: una para tu colorimetría y otra para el probador virtual. Solo se usan durante tu sesión y no se guardan de forma permanente.</p>
+    <form action="{{ url_for('photos.save') }}" method="post" enctype="multipart/form-data">
+      <div class="card-grid photo-grid">
+        {{ photo_card('face', 'Foto de rostro', 'Rostro visible, de frente y con buena iluminación.', user_session.face_photo is not none) }}
+        {{ photo_card('body', 'Foto de cuerpo completo', 'De frente, en postura neutra y con todo el cuerpo visible.', user_session.body_photo is not none) }}
+      </div>
+      <div class="actions">
+        <a class="button button--secondary" href="{{ url_for('home.index') }}">Regresar</a>
+        <button class="button" type="submit">Continuar</button>
+      </div>
+    </form>
   </div>
 </section>
 {% endblock %}

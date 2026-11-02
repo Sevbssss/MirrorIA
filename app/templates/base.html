@@ -10,6 +10,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Mirror IA{% endblock %}</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
 </head>
@@ -36,7 +37,14 @@
   </nav>
   {% endif %}
 
-  <main>{% block content %}{% endblock %}</main>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+    <div class="container"><p class="alert alert--{{ category }}" role="alert">{{ message }}</p></div>
+    {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
 
   <footer class="site-footer">
     <div class="container site-footer__inner">

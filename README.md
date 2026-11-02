@@ -49,7 +49,7 @@ Las pruebas usan pytest, que se instala aparte: `python -m pip install pytest` y
 
 ## Estado actual
 
-Fase 1 completa: navegación entre todas las pantallas. Salvo la landing, las pantallas contienen marcadores; las fotografías, la búsqueda, el scraping, las recomendaciones, la colorimetría y el probador se implementan en las fases siguientes.
+Avance 1: carga, validación y confirmación de las dos fotografías (archivo o cámara) y búsqueda conversacional con reglas. Las fotografías se mantienen solo en memoria durante 30 minutos de inactividad, según RNF-04, y no se escriben en disco. Productos, recomendaciones, colorimetría y probador se implementan en los siguientes avances.
 
 ## Alcance
 Tus fotografías (rostro y cuerpo completo) → Buscar prendas → Probador virtual → Ficha de compra.
